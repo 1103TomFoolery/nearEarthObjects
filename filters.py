@@ -82,7 +82,7 @@ def create_filters(date=None, start_date=None, end_date=None,
     Each of these arguments is provided by the main module with a value from the
     user's options at the command line. Each one corresponds to a different type
     of filter. For example, the `--date` option corresponds to the `date`
-    argument, and represents a filter that selects close approaches that occured
+    argument, and represents a filter that selects close approaches that occurred
     on exactly that given date. Similarly, the `--min-distance` option
     corresponds to the `distance_min` argument, and represents a filter that
     selects close approaches whose nominal approach distance is at least that
@@ -107,7 +107,68 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = []
+    if hazardous == 'No' or hazardous == 'not-hazardous':
+        hazardous = False
+    else:
+        hazardous = hazardous
+
+    class DateFilter(AttributeFilter):
+        @classmethod
+        def get(cls, approach):
+            return approach.time.date()
+
+    class DistanceFilter(AttributeFilter):
+        @classmethod
+        def get(cls, approach):
+            return approach.distance
+
+    class VelocityFilter(AttributeFilter):
+        @classmethod
+        def get(cls, approach):
+            return approach.velocity
+
+    class DiameterFilter(AttributeFilter):
+        @classmethod
+        def get(cls, approach):
+            return approach.neo.diameter
+
+    class HazardousFilter(AttributeFilter):
+        @classmethod
+        def get(cls, approach):
+            return approach.neo.hazardous
+
+    if date is not None:
+        filters.append(DateFilter(operator.eq, date))
+
+    if start_date is not None:
+        filters.append(DateFilter(operator.ge, start_date))
+
+    if end_date is not None:
+        filters.append(DateFilter(operator.le, end_date))
+
+    if distance_max is not None:
+        filters.append(DistanceFilter(operator.le, distance_max))
+
+    if distance_min is not None:
+        filters.append(DistanceFilter(operator.ge, distance_min))
+
+    if diameter_max is not None:
+        filters.append(DiameterFilter(operator.le, distance_max))
+
+    if diameter_min is not None:
+        filters.append(DiameterFilter(operator.ge, diameter_min))
+
+    if velocity_max is not None:
+        filters.append(VelocityFilter(operator.le, velocity_max))
+
+    if velocity_min is not None:
+        filters.append(VelocityFilter(operator.ge, velocity_min))
+
+    if hazardous is not None:
+        filters.append(HazardousFilter(operator.eq, hazardous))
+
+    return filters
 
 
 def limit(iterator, n=None):
@@ -120,4 +181,7 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+    if n--0 or n is None:
+        return iterator
+    else:
+        return itertools.islice(iterator, n)
