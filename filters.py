@@ -71,6 +71,35 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+class DateFilter(AttributeFilter):
+    """Subclass of AttributeFilter  that overrides the get method to filter on dates"""
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+class DistanceFilter(AttributeFilter):
+    """Subclass of AttributeFilter  that overrides the get method to filter on distance"""
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
+
+class VelocityFilter(AttributeFilter):
+    """Subclass of AttributeFilter  that overrides the get method to filter on velocity"""
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity
+
+class DiameterFilter(AttributeFilter):
+    """Subclass of AttributeFilter  that overrides the get method to filter on  diameter"""
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.diameter
+
+class HazardousFilter(AttributeFilter):
+    """Subclass of AttributeFilter  that overrides the get method to filter on whether the NEO is hazardous or not"""
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.hazardous
 
 def create_filters(date=None, start_date=None, end_date=None,
                    distance_min=None, distance_max=None,
@@ -113,31 +142,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     else:
         hazardous = hazardous
 
-    class DateFilter(AttributeFilter):
-        @classmethod
-        def get(cls, approach):
-            return approach.time.date()
-
-    class DistanceFilter(AttributeFilter):
-        @classmethod
-        def get(cls, approach):
-            return approach.distance
-
-    class VelocityFilter(AttributeFilter):
-        @classmethod
-        def get(cls, approach):
-            return approach.velocity
-
-    class DiameterFilter(AttributeFilter):
-        @classmethod
-        def get(cls, approach):
-            return approach.neo.diameter
-
-    class HazardousFilter(AttributeFilter):
-        @classmethod
-        def get(cls, approach):
-            return approach.neo.hazardous
-
     if date is not None:
         filters.append(DateFilter(operator.eq, date))
 
@@ -154,7 +158,7 @@ def create_filters(date=None, start_date=None, end_date=None,
         filters.append(DistanceFilter(operator.ge, distance_min))
 
     if diameter_max is not None:
-        filters.append(DiameterFilter(operator.le, distance_max))
+        filters.append(DiameterFilter(operator.le, diameter_max))
 
     if diameter_min is not None:
         filters.append(DiameterFilter(operator.ge, diameter_min))
