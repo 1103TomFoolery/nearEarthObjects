@@ -16,7 +16,7 @@ iterator.
 
 You'll edit this file in Tasks 3a and 3c.
 """
-import operator
+import operator, itertools
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -185,7 +185,7 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
-    if n--0 or n is None:
+    if n==0 or n is None:
         return iterator
     else:
         return itertools.islice(iterator, n)

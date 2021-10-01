@@ -70,5 +70,4 @@ def write_to_json(results, filename):
         dict_list.append(d)
 
     with open(filename, 'w') as jsonfile:
-        for dictionary in dict_list:
-            json.dump(dictionary, jsonfile)
+        json.dump(dict_list, jsonfile)
