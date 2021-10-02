@@ -59,9 +59,6 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-        # TODO: Use this object's attributes to return a human-readable string representation.
-        # The project instructions include one possibility. Peek at the __repr__
-        # method for examples of advanced string formatting.
         return f"""NEO {self.fullname!r} has a diameter of {self.diameter:.3f} km and 
                 is{'' if self.hazardous == True else ' not'} hazardous """
 
@@ -102,6 +99,7 @@ class CloseApproach:
     @property
     def time_str(self):
         """Return a formatted representation of this `CloseApproach`'s approach time.
+
         The value in `self.time` should be a Python `datetime` object. While a
         `datetime` object has a string representation, the default representation
         includes seconds - significant figures that don't exist in our input

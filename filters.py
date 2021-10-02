@@ -39,6 +39,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -70,46 +71,52 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Return class description."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
 class DateFilter(AttributeFilter):
-    """Subclass of AttributeFilter  that overrides the get method to filter on dates"""
+    """Subclass of AttributeFilter  that overrides the get method to filter on dates."""
+
     @classmethod
     def get(cls, approach):
-        """Get the date portion of the time attribute from the passed approach"""
+        """Get the date portion of the time attribute from the passed approach."""
         return approach.time.date()
 
 
 class DistanceFilter(AttributeFilter):
-    """Subclass of AttributeFilter  that overrides the get method to filter on distance"""
+    """Subclass of AttributeFilter  that overrides the get method to filter on distance."""
+
     @classmethod
     def get(cls, approach):
-        """Get distance parameter from the passed approach"""
+        """Get distance parameter from the passed approach."""
         return approach.distance
 
 
 class VelocityFilter(AttributeFilter):
-    """Subclass of AttributeFilter  that overrides the get method to filter on velocity"""
+    """Subclass of AttributeFilter  that overrides the get method to filter on velocity."""
+
     @classmethod
     def get(cls, approach):
-        """Get velocity parameter form the passed approach"""
+        """Get velocity parameter form the passed approach."""
         return approach.velocity
 
 
 class DiameterFilter(AttributeFilter):
-    """Subclass of AttributeFilter  that overrides the get method to filter on  diameter"""
+    """Subclass of AttributeFilter  that overrides the get method to filter on  diameter."""
+
     @classmethod
     def get(cls, approach):
-        """Get diameter parameter from the neo associated with the passed approach"""
+        """Get diameter parameter from the neo associated with the passed approach."""
         return approach.neo.diameter
 
 
 class HazardousFilter(AttributeFilter):
-    """Subclass of AttributeFilter  that overrides the get method to filter on whether the NEO is hazardous or not"""
+    """Subclass of AttributeFilter  that overrides the get method to filter on whether the NEO is hazardous or not."""
+
     @classmethod
     def get(cls, approach):
-        """Get the hazardous parameter from the neo associated with the passed approach"""
+        """Get the hazardous parameter from the neo associated with the passed approach."""
         return approach.neo.hazardous
 
 
@@ -147,7 +154,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
     filters = []
     if hazardous == 'No' or hazardous == 'not-hazardous':
         hazardous = False
@@ -196,7 +202,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
     if n == 0 or n is None:
         return iterator
     else:

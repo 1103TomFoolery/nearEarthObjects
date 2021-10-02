@@ -29,18 +29,15 @@ class NEODatabase:
         and close approaches haven't yet been linked - that is, the
         `.approaches` attribute of each `NearEarthObject` resolves to an empty
         collection, and the `.neo` attribute of each `CloseApproach` is None.
-
         However, each `CloseApproach` has an attribute (`._designation`) that
         matches the `.designation` attribute of the corresponding NEO. This
         constructor modifies the supplied NEOs and close approaches to link them
         together - after it's done, the `.approaches` attribute of each NEO has
         a collection of that NEO's close approaches, and the `.neo` attribute of
         each close approach references the appropriate NEO.
-
         :param neos: A collection of `NearEarthObject`s.
         :param approaches: A collection of `CloseApproach`es.
         """
-
         self.approaches = approaches
         for approach in approaches:
             for neo in neos:
@@ -58,16 +55,12 @@ class NEODatabase:
         """Find and return an NEO by its primary designation.
 
         If no match is found, return `None` instead.
-
         Each NEO in the data set has a unique primary designation, as a string.
-
         The matching is exact - check for spelling and capitalization if no
         match is found.
-
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-
         if designation in self.neos_by_designation_dict.keys():
             return self.neos_by_designation_dict[designation]
         else:
@@ -97,16 +90,12 @@ class NEODatabase:
 
         This generates a stream of `CloseApproach` objects that match all of the
         provided filters.
-
         If no arguments are provided, generate all known close approaches.
-
         The `CloseApproach` objects are generated in internal order, which isn't
         guaranteed to be sorted meaninfully, although is often sorted by time.
-
         :param filters: A collection of filters capturing user-specified criteria.
         :return: A stream of matching `CloseApproach` objects.
         """
-
         for approach in self.approaches:
             is_match = True
             for filter in filters:
