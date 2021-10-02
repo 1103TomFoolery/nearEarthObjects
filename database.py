@@ -41,9 +41,6 @@ class NEODatabase:
         :param approaches: A collection of `CloseApproach`es.
         """
 
-        # TODO: What additional auxiliary data structures will be useful?
-
-        # TODO: Link together the NEOs and their close approaches.
         self.approaches = approaches
         for approach in approaches:
             for neo in neos:
@@ -70,15 +67,7 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        # TODO: Fetch an NEO by its primary designation.
-        # neo = self.approaches_by_designation_dict[designation]
-        # neo_name = neo.neo
-        # print(neo_name)
-        # neo = self.neos_by_names_dict[neo_name]
-        # if neo == '':
-        #     return None
-        # else:
-        #     return neo
+
         if designation in self.neos_by_designation_dict.keys():
             return self.neos_by_designation_dict[designation]
         else:
@@ -98,7 +87,6 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        # TODO: Fetch an NEO by its name.
         if name in self.neos_by_names_dict.keys():
             return self.neos_by_names_dict[name]
         else:
@@ -118,13 +106,12 @@ class NEODatabase:
         :param filters: A collection of filters capturing user-specified criteria.
         :return: A stream of matching `CloseApproach` objects.
         """
-        # TODO: Generate `CloseApproach` objects that match all of the filters.
 
         for approach in self.approaches:
-            match = True
+            is_match = True
             for filter in filters:
                 if not filter(approach):
-                    match = False
+                    is_match = False
                     break
-            if match == True:
+            if is_match:
                 yield approach
